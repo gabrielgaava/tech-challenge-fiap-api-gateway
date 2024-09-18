@@ -5,21 +5,21 @@ provider "aws" {
     token      = var.aws_session_token
   }
   
-  resource "aws_api_gateway_rest_api" "tech_challenge_api" {
+resource "aws_api_gateway_rest_api" "tech_challenge_api" {
     name        =   "Tech-Challenge-API"
     description =   "API Gateway para projeto do Tech Challenge na Pos da FIAP"
     body        =   file("api_contract.yaml")
-  }
-  
-  resource "aws_api_gateway_deployment" "tech_challenge_api_deployment" {
-    
-  depends_on = [
-      aws_api_gateway_rest_api.example_api
+}
+
+resource "aws_api_gateway_deployment" "tech_challenge_api_deployment" {
+
+    depends_on = [
+      aws_api_gateway_rest_api.tech_challenge_api
     ]
     
-    rest_api_id = aws_api_gateway_rest_api.example_api.id
+    rest_api_id = aws_api_gateway_rest_api.tech_challenge_api.id
     stage_name  = var.stage
-  }
+}
   
   
   variable "aws_access_key" {}
