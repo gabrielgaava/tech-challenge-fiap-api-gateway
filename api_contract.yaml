@@ -1,0 +1,29 @@
+openapi: 3.0.1
+info:
+  title: Tech Challenge API
+  description: API Gateway para projeto do Tech Challenge na Pos da FIAP
+  version: 1.0.0
+paths:
+  /healthcheck:
+    get:
+      summary: Returns a ok status
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Server is up and running!'
+                  status:
+                    type: string
+                    example: "RUNNING"
+      x-amazon-apigateway-integration:
+        type: http_proxy
+        httpMethod: GET
+        uri: "https://google.com"
+        
+        
