@@ -619,7 +619,7 @@ paths:
         httpMethod: GET
         type: http_proxy
         uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
-  /api/orders/{order_id}/checkout:
+  /api/orders/{id}/checkout:
     post:
       operationId: payOrder
       parameters:
