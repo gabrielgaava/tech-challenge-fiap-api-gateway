@@ -9,9 +9,9 @@ components:
         name:
           type: string
       required:
-      - cpf
-      - email
-      - name
+        - cpf
+        - email
+        - name
       type: object
     CreateOrderDTO:
       properties:
@@ -28,10 +28,10 @@ components:
       properties:
         category:
           enum:
-          - SANDWICH
-          - SIDE_DISH
-          - DRINK
-          - DESSERT
+            - SANDWICH
+            - SIDE_DISH
+            - DRINK
+            - DESSERT
           type: string
         description:
           type: string
@@ -44,10 +44,10 @@ components:
           minimum: 0
           type: number
       required:
-      - category
-      - description
-      - imageUrl
-      - name
+        - category
+        - description
+        - imageUrl
+        - name
       type: object
     CustomerDTO:
       properties:
@@ -90,12 +90,12 @@ components:
           type: array
         status:
           enum:
-          - CREATED
-          - RECEIVED
-          - IN_PREPARATION
-          - READY_TO_DELIVERY
-          - CANCELED
-          - FINISHED
+            - CREATED
+            - RECEIVED
+            - IN_PREPARATION
+            - READY_TO_DELIVERY
+            - CANCELED
+            - FINISHED
           type: string
         waitingTimeInSeconds:
           format: int64
@@ -105,48 +105,48 @@ components:
       properties:
         lastStatus:
           enum:
-          - CREATED
-          - RECEIVED
-          - IN_PREPARATION
-          - READY_TO_DELIVERY
-          - CANCELED
-          - FINISHED
+            - CREATED
+            - RECEIVED
+            - IN_PREPARATION
+            - READY_TO_DELIVERY
+            - CANCELED
+            - FINISHED
           type: string
         moment:
           format: date-time
           type: string
         previousStatus:
           enum:
-          - CREATED
-          - RECEIVED
-          - IN_PREPARATION
-          - READY_TO_DELIVERY
-          - CANCELED
-          - FINISHED
+            - CREATED
+            - RECEIVED
+            - IN_PREPARATION
+            - READY_TO_DELIVERY
+            - CANCELED
+            - FINISHED
           type: string
       type: object
     OrderHistoryDTO:
       properties:
         lastStatus:
           enum:
-          - CREATED
-          - RECEIVED
-          - IN_PREPARATION
-          - READY_TO_DELIVERY
-          - CANCELED
-          - FINISHED
+            - CREATED
+            - RECEIVED
+            - IN_PREPARATION
+            - READY_TO_DELIVERY
+            - CANCELED
+            - FINISHED
           type: string
         moment:
           format: date-time
           type: string
         previousStatus:
           enum:
-          - CREATED
-          - RECEIVED
-          - IN_PREPARATION
-          - READY_TO_DELIVERY
-          - CANCELED
-          - FINISHED
+            - CREATED
+            - RECEIVED
+            - IN_PREPARATION
+            - READY_TO_DELIVERY
+            - CANCELED
+            - FINISHED
           type: string
       type: object
     OrderProductDTO:
@@ -161,8 +161,8 @@ components:
           minimum: 1
           type: integer
       required:
-      - id
-      - quantity
+        - id
+        - quantity
       type: object
     Payment:
       properties:
@@ -232,10 +232,10 @@ components:
       properties:
         category:
           enum:
-          - SANDWICH
-          - SIDE_DISH
-          - DRINK
-          - DESSERT
+            - SANDWICH
+            - SIDE_DISH
+            - DRINK
+            - DESSERT
           type: string
         description:
           type: string
@@ -261,10 +261,10 @@ components:
       properties:
         category:
           enum:
-          - SANDWICH
-          - SIDE_DISH
-          - DRINK
-          - DESSERT
+            - SANDWICH
+            - SIDE_DISH
+            - DRINK
+            - DESSERT
           type: string
         description:
           type: string
@@ -280,10 +280,10 @@ components:
           minimum: 0
           type: number
       required:
-      - category
-      - description
-      - imageUrl
-      - name
+        - category
+        - description
+        - imageUrl
+        - name
       type: object
     PutCustomerDTO:
       properties:
@@ -292,135 +292,134 @@ components:
         name:
           type: string
       required:
-      - email
-      - name
+        - email
+        - name
       type: object
     UpdateOrderStatusDTO:
       properties:
         status:
           type: string
       required:
-      - status
+        - status
       type: object
 info:
   title: Burger API -Tech Challenge API
   version: v1
 openapi: 3.0.1
 paths:
-  /api:
-    /customers:
-      get:
-        operationId: getAllCustomers
-        responses:
-          '200':
-            content:
-              '*/*':
-                schema:
-                  items:
-                    $ref: '#/components/schemas/CustomerDTO'
-                  type: array
-            description: OK
-        summary: List all customers
-        tags:
-        - Customer API
-        x-amazon-apigateway-integration:
-          httpMethod: GET
-          type: http_proxy
-          uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
-      post:
-        operationId: createCustomer
-        requestBody:
+  /api/customers:
+    get:
+      operationId: getAllCustomers
+      responses:
+        '200':
           content:
-            application/json:
+            '*/*':
               schema:
-                $ref: '#/components/schemas/CreateCustomerDTO'
-          required: true
-        responses:
-          '200':
-            content:
-              '*/*':
-                schema:
+                items:
                   $ref: '#/components/schemas/CustomerDTO'
-            description: OK
-        summary: Create a new customers
-        tags:
+                type: array
+          description: OK
+      summary: List all customers
+      tags:
         - Customer API
-        x-amazon-apigateway-integration:
-          httpMethod: POST
-          type: http_proxy
-          uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
-    /customers/{cpf}:
-      get:
-        operationId: getCustomerByCpf
-        parameters:
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        type: http_proxy
+        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+    post:
+      operationId: createCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomerDTO'
+        required: true
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CustomerDTO'
+          description: OK
+      summary: Create a new customers
+      tags:
+        - Customer API
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: http_proxy
+        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+  /api/customers/{cpf}:
+    get:
+      operationId: getCustomerByCpf
+      parameters:
         - in: path
           name: cpf
           required: true
           schema:
             type: string
-        responses:
-          '200':
-            content:
-              '*/*':
-                schema:
-                  $ref: '#/components/schemas/CustomerDTO'
-            description: OK
-        summary: Search for a customer by CPF
-        tags:
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CustomerDTO'
+          description: OK
+      summary: Search for a customer by CPF
+      tags:
         - Customer API
-        x-amazon-apigateway-integration:
-          httpMethod: GET
-          type: http_proxy
-          uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
-      put:
-        operationId: updateCustomerByCpf
-        parameters:
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        type: http_proxy
+        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+    put:
+      operationId: updateCustomerByCpf
+      parameters:
         - in: path
           name: cpf
           required: true
           schema:
             type: string
-        requestBody:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutCustomerDTO'
+        required: true
+      responses:
+        '200':
           content:
-            application/json:
+            '*/*':
               schema:
-                $ref: '#/components/schemas/PutCustomerDTO'
-          required: true
-        responses:
-          '200':
-            content:
-              '*/*':
-                schema:
-                  $ref: '#/components/schemas/CustomerDTO'
-            description: OK
-        summary: Update customers data
-        tags:
+                $ref: '#/components/schemas/CustomerDTO'
+          description: OK
+      summary: Update customers data
+      tags:
         - Customer API
-        x-amazon-apigateway-integration:
-          httpMethod: PUT
-          type: http_proxy
-          uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
-    /healthcheck:
-      get:
-        operationId: test
-        responses:
-          '200':
-            content:
-              '*/*':
-                schema:
-                  type: string
-            description: OK
-        summary: Returns current API status
-        tags:
+      x-amazon-apigateway-integration:
+        httpMethod: PUT
+        type: http_proxy
+        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+  /api/healthcheck:
+    get:
+      operationId: test
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                type: string
+          description: OK
+      summary: Returns current API status
+      tags:
         - Healthcheck API
-        x-amazon-apigateway-integration:
-          httpMethod: GET
-          type: http_proxy
-          uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
-    /notifications/mercadopago:
-      post:
-        operationId: instantPaymentNotification
-        parameters:
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        type: http_proxy
+        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+  /api/notifications/mercadopago:
+    post:
+      operationId: instantPaymentNotification
+      parameters:
         - in: query
           name: topic
           required: true
@@ -431,23 +430,23 @@ paths:
           required: true
           schema:
             type: string
-        responses:
-          '200':
-            content:
-              '*/*':
-                schema:
-                  type: object
-            description: OK
-        tags:
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                type: object
+          description: OK
+      tags:
         - Webhook Mercado Pago Controller
-        x-amazon-apigateway-integration:
-          httpMethod: POST
-          type: http_proxy
-          uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
-    /notifications/mercadopago/fake:
-      post:
-        operationId: fakePaymentNotification
-        parameters:
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: http_proxy
+        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+  /api/notifications/mercadopago/fake:
+    post:
+      operationId: fakePaymentNotification
+      parameters:
         - in: query
           name: approve
           schema:
@@ -457,197 +456,197 @@ paths:
           required: true
           schema:
             type: string
-        responses:
-          '200':
-            content:
-              '*/*':
-                schema:
-                  $ref: '#/components/schemas/PaymentWebhookDTO'
-            description: OK
-        summary: Simulate the webhook integration, when 'approve' is true, simulates
-          the success of the payment
-        tags:
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PaymentWebhookDTO'
+          description: OK
+      summary: Simulate the webhook integration, when 'approve' is true, simulates
+        the success of the payment
+      tags:
         - Webhook Mercado Pago Controller
-        x-amazon-apigateway-integration:
-          httpMethod: POST
-          type: http_proxy
-          uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
-    /orders:
-      get:
-        operationId: getOrders
-        parameters:
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: http_proxy
+        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+  /api/orders:
+    get:
+      operationId: getOrders
+      parameters:
         - in: query
           name: status
           required: false
           schema:
             enum:
-            - CREATED
-            - RECEIVED
-            - IN_PREPARATION
-            - READY_TO_DELIVERY
-            - CANCELED
-            - FINISHED
+              - CREATED
+              - RECEIVED
+              - IN_PREPARATION
+              - READY_TO_DELIVERY
+              - CANCELED
+              - FINISHED
             type: string
         - in: query
           name: orderBy
           required: false
           schema:
             enum:
-            - CREATED_AT
-            - ORDER_NUMBER
-            - AMOUNT
+              - CREATED_AT
+              - ORDER_NUMBER
+              - AMOUNT
             type: string
         - in: query
           name: orderDirection
           required: false
           schema:
             enum:
-            - ASC
-            - DESC
+              - ASC
+              - DESC
             type: string
-        responses:
-          '200':
-            content:
-              '*/*':
-                schema:
-                  items:
-                    $ref: '#/components/schemas/OrderDTO'
-                  type: array
-            description: OK
-        summary: List all orders based on query filters
-        tags:
-        - Order API
-        x-amazon-apigateway-integration:
-          httpMethod: GET
-          type: http_proxy
-          uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
-      post:
-        operationId: createOrder
-        requestBody:
+      responses:
+        '200':
           content:
-            application/json:
+            '*/*':
               schema:
-                $ref: '#/components/schemas/CreateOrderDTO'
-          required: true
-        responses:
-          '200':
-            content:
-              '*/*':
-                schema:
+                items:
                   $ref: '#/components/schemas/OrderDTO'
-            description: OK
-        summary: Create a new Order
-        tags:
+                type: array
+          description: OK
+      summary: List all orders based on query filters
+      tags:
         - Order API
-        x-amazon-apigateway-integration:
-          httpMethod: POST
-          type: http_proxy
-          uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
-    /orders/{id}:
-      get:
-        operationId: getOrder
-        parameters:
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        type: http_proxy
+        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+    post:
+      operationId: createOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderDTO'
+        required: true
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrderDTO'
+          description: OK
+      summary: Create a new Order
+      tags:
+        - Order API
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: http_proxy
+        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+  /api/orders/{id}:
+    get:
+      operationId: getOrder
+      parameters:
         - in: path
           name: id
           required: true
           schema:
             type: string
-        responses:
-          '200':
-            content:
-              '*/*':
-                schema:
-                  $ref: '#/components/schemas/OrderDTO'
-            description: OK
-        summary: Get all details of an order
-        tags:
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrderDTO'
+          description: OK
+      summary: Get all details of an order
+      tags:
         - Order API
-        x-amazon-apigateway-integration:
-          httpMethod: GET
-          type: http_proxy
-          uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
-      patch:
-        operationId: updateStatus
-        parameters:
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        type: http_proxy
+        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+    patch:
+      operationId: updateStatus
+      parameters:
         - in: path
           name: id
           required: true
           schema:
             type: string
-        requestBody:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateOrderStatusDTO'
+        required: true
+      responses:
+        '200':
           content:
-            application/json:
+            '*/*':
               schema:
-                $ref: '#/components/schemas/UpdateOrderStatusDTO'
-          required: true
-        responses:
-          '200':
-            content:
-              '*/*':
-                schema:
-                  type: object
-            description: OK
-        summary: Update the oder's status
-        tags:
+                type: object
+          description: OK
+      summary: Update the oder's status
+      tags:
         - Order API
-        x-amazon-apigateway-integration:
-          httpMethod: PATCH
-          type: http_proxy
-          uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
-    /orders/{id}/history:
-      get:
-        operationId: getOrderHistory
-        parameters:
+      x-amazon-apigateway-integration:
+        httpMethod: PATCH
+        type: http_proxy
+        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+  /api/orders/{id}/history:
+    get:
+      operationId: getOrderHistory
+      parameters:
         - in: path
           name: id
           required: true
           schema:
             format: uuid
             type: string
-        responses:
-          '200':
-            content:
-              '*/*':
-                schema:
-                  items:
-                    $ref: '#/components/schemas/OrderHistoryDTO'
-                  type: array
-            description: OK
-        summary: Get the order's history with all status changes
-        tags:
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/OrderHistoryDTO'
+                type: array
+          description: OK
+      summary: Get the order's history with all status changes
+      tags:
         - Order API
-        x-amazon-apigateway-integration:
-          httpMethod: GET
-          type: http_proxy
-          uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
-    /orders/{order_id}/checkout:
-      post:
-        operationId: payOrder
-        parameters:
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        type: http_proxy
+        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+  /api/orders/{order_id}/checkout:
+    post:
+      operationId: payOrder
+      parameters:
         - in: path
           name: order_id
           required: true
           schema:
             format: uuid
             type: string
-        responses:
-          '200':
-            content:
-              '*/*':
-                schema:
-                  $ref: '#/components/schemas/PaymentDTO'
-            description: OK
-        summary: Pay the order with mercado pago
-        tags:
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PaymentDTO'
+          description: OK
+      summary: Pay the order with mercado pago
+      tags:
         - Order API
-        x-amazon-apigateway-integration:
-          httpMethod: POST
-          type: http_proxy
-          uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
-    /payments/{payment_id}:
-      get:
-        operationId: getPayment
-        parameters:
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: http_proxy
+        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+  /api/payments/{payment_id}:
+    get:
+      operationId: getPayment
+      parameters:
         - in: query
           name: isExternal
           required: false
@@ -658,96 +657,96 @@ paths:
           required: true
           schema:
             type: string
-        responses:
-          '200':
-            content:
-              '*/*':
-                schema:
-                  $ref: '#/components/schemas/Payment'
-            description: OK
-        summary: Get a payment details by its ID. When 'isExternal' is true, search
-          by the external gateway ID
-        tags:
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Payment'
+          description: OK
+      summary: Get a payment details by its ID. When 'isExternal' is true, search
+        by the external gateway ID
+      tags:
         - Payment Controller
-        x-amazon-apigateway-integration:
-          httpMethod: GET
-          type: http_proxy
-          uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
-    /products:
-      get:
-        operationId: getProducts
-        parameters:
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        type: http_proxy
+        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+  /api/products:
+    get:
+      operationId: getProducts
+      parameters:
         - in: query
           name: category
           required: false
           schema:
             enum:
-            - SANDWICH
-            - SIDE_DISH
-            - DRINK
-            - DESSERT
+              - SANDWICH
+              - SIDE_DISH
+              - DRINK
+              - DESSERT
             type: string
-        responses:
-          '200':
-            content:
-              '*/*':
-                schema:
-                  items:
-                    $ref: '#/components/schemas/Product'
-                  type: array
-            description: OK
-        summary: List all storage products
-        tags:
-        - Product API
-        x-amazon-apigateway-integration:
-          httpMethod: GET
-          type: http_proxy
-          uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
-      post:
-        operationId: createProduct
-        requestBody:
+      responses:
+        '200':
           content:
-            application/json:
+            '*/*':
               schema:
-                $ref: '#/components/schemas/CreateProductDTO'
-          required: true
-        responses:
-          '200':
-            content:
-              '*/*':
-                schema:
-                  $ref: '#/components/schemas/ProductDTO'
-            description: OK
-        summary: Creates a new product
-        tags:
+                items:
+                  $ref: '#/components/schemas/Product'
+                type: array
+          description: OK
+      summary: List all storage products
+      tags:
         - Product API
-        x-amazon-apigateway-integration:
-          httpMethod: POST
-          type: http_proxy
-          uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
-    /products/{id}:
-      delete:
-        operationId: deleteProduct
-        parameters:
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        type: http_proxy
+        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+    post:
+      operationId: createProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductDTO'
+        required: true
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProductDTO'
+          description: OK
+      summary: Creates a new product
+      tags:
+        - Product API
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: http_proxy
+        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+  /api/products/{id}:
+    delete:
+      operationId: deleteProduct
+      parameters:
         - in: path
           name: id
           required: true
           schema:
             type: string
-        responses:
-          '200':
-            content:
-              '*/*':
-                schema:
-                  type: object
-            description: OK
-        summary: Delete a product from database
-        tags:
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                type: object
+          description: OK
+      summary: Delete a product from database
+      tags:
         - Product API
-        x-amazon-apigateway-integration:
-          httpMethod: DELETE
-          type: http_proxy
-          uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+      x-amazon-apigateway-integration:
+        httpMethod: DELETE
+        type: http_proxy
+        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
 servers:
-- description: Generated server url
-  url: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+  - description: Generated server url
+    url: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
