@@ -482,308 +482,307 @@ servers:
 
 components:
   schemas:
-    schemas:
-  CreateCustomerDTO:
-    properties:
-      cpf:
-        type: string
-      email:
-        type: string
-      name:
-        type: string
-    required:
-    - cpf
-    - email
-    - name
-    type: object
-  CreateOrderDTO:
-    properties:
-      customerId:
-        maxLength: 36
-        minLength: 36
-        type: string
-      products:
-        items:
-          $ref: '#/schemas/OrderProductDTO'
-        type: array
-    type: object
-  CreateProductDTO:
-    properties:
-      category:
-        enum:
-        - SANDWICH
-        - SIDE_DISH
-        - DRINK
-        - DESSERT
-        type: string
-      description:
-        type: string
-      imageUrl:
-        type: string
-      name:
-        type: string
-      price:
-        exclusiveMinimum: true
-        minimum: 0
-        type: number
-    required:
-    - category
-    - description
-    - imageUrl
-    - name
-    type: object
-  CustomerDTO:
-    properties:
-      cpf:
-        type: string
-      email:
-        type: string
-      id:
-        format: uuid
-        type: string
-      name:
-        type: string
-    type: object
-  OrderDTO:
-    properties:
-      amount:
-        type: number
-      createdAt:
-        format: date-time
-        type: string
-      customerId:
-        format: uuid
-        type: string
-      history:
-        items:
-          $ref: '#/schemas/OrderHistory'
-        type: array
-      id:
-        format: uuid
-        type: string
-      orderNumber:
-        format: int32
-        type: integer
-      paidAt:
-        format: date-time
-        type: string
-      products:
-        items:
-          $ref: '#/schemas/ProductAndQuantity'
-        type: array
-      status:
-        enum:
-        - CREATED
-        - RECEIVED
-        - IN_PREPARATION
-        - READY_TO_DELIVERY
-        - CANCELED
-        - FINISHED
-        type: string
-      waitingTimeInSeconds:
-        format: int64
-        type: integer
-    type: object
-  OrderHistory:
-    properties:
-      lastStatus:
-        enum:
-        - CREATED
-        - RECEIVED
-        - IN_PREPARATION
-        - READY_TO_DELIVERY
-        - CANCELED
-        - FINISHED
-        type: string
-      moment:
-        format: date-time
-        type: string
-      previousStatus:
-        enum:
-        - CREATED
-        - RECEIVED
-        - IN_PREPARATION
-        - READY_TO_DELIVERY
-        - CANCELED
-        - FINISHED
-        type: string
-    type: object
-  OrderHistoryDTO:
-    properties:
-      lastStatus:
-        enum:
-        - CREATED
-        - RECEIVED
-        - IN_PREPARATION
-        - READY_TO_DELIVERY
-        - CANCELED
-        - FINISHED
-        type: string
-      moment:
-        format: date-time
-        type: string
-      previousStatus:
-        enum:
-        - CREATED
-        - RECEIVED
-        - IN_PREPARATION
-        - READY_TO_DELIVERY
-        - CANCELED
-        - FINISHED
-        type: string
-    type: object
-  OrderProductDTO:
-    properties:
-      id:
-        maxLength: 36
-        minLength: 36
-        type: string
-      quantity:
-        format: int32
-        maximum: 2147483647
-        minimum: 1
-        type: integer
-    required:
-    - id
-    - quantity
-    type: object
-  Payment:
-    properties:
-      amount:
-        type: number
-      externalId:
-        type: string
-      gateway:
-        type: string
-      id:
-        format: uuid
-        type: string
-      orderId:
-        format: uuid
-        type: string
-      payedAt:
-        format: date-time
-        type: string
-      status:
-        type: string
-      transactionData:
-        type: object
-    type: object
-  PaymentDTO:
-    properties:
-      amount:
-        type: number
-      externalId:
-        type: string
-      gateway:
-        type: string
-      orderId:
-        format: uuid
-        type: string
-      payedAt:
-        format: date-time
-        type: string
-      paymentId:
-        format: uuid
-        type: string
-      status:
-        type: string
-      transactionData:
-        type: object
-    type: object
-  PaymentWebhookDTO:
-    properties:
-      amount:
-        type: number
-      externalId:
-        type: string
-      gateway:
-        type: string
-      orderId:
-        format: uuid
-        type: string
-      payedAt:
-        format: date-time
-        type: string
-      paymentId:
-        format: uuid
-        type: string
-      status:
-        type: string
-    type: object
-  Product:
-    properties:
-      category:
-        enum:
-        - SANDWICH
-        - SIDE_DISH
-        - DRINK
-        - DESSERT
-        type: string
-      description:
-        type: string
-      id:
-        format: uuid
-        type: string
-      imageUrl:
-        type: string
-      name:
-        type: string
-      price:
-        type: number
-    type: object
-  ProductAndQuantity:
-    properties:
-      product:
-        $ref: '#/schemas/Product'
-      quantity:
-        format: int32
-        type: integer
-    type: object
-  ProductDTO:
-    properties:
-      category:
-        enum:
-        - SANDWICH
-        - SIDE_DISH
-        - DRINK
-        - DESSERT
-        type: string
-      description:
-        type: string
-      id:
-        format: uuid
-        type: string
-      imageUrl:
-        type: string
-      name:
-        type: string
-      price:
-        exclusiveMinimum: true
-        minimum: 0
-        type: number
-    required:
-    - category
-    - description
-    - imageUrl
-    - name
-    type: object
-  PutCustomerDTO:
-    properties:
-      email:
-        type: string
-      name:
-        type: string
-    required:
-    - email
-    - name
-    type: object
-  UpdateOrderStatusDTO:
-    properties:
-      status:
-        type: string
-    required:
-    - status
-    type: object
+    CreateCustomerDTO:
+      properties:
+        cpf:
+          type: string
+        email:
+          type: string
+        name:
+          type: string
+      required:
+      - cpf
+      - email
+      - name
+      type: object
+    CreateOrderDTO:
+      properties:
+        customerId:
+          maxLength: 36
+          minLength: 36
+          type: string
+        products:
+          items:
+            $ref: '#/components/schemas/OrderProductDTO'
+          type: array
+      type: object
+    CreateProductDTO:
+      properties:
+        category:
+          enum:
+          - SANDWICH
+          - SIDE_DISH
+          - DRINK
+          - DESSERT
+          type: string
+        description:
+          type: string
+        imageUrl:
+          type: string
+        name:
+          type: string
+        price:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+      required:
+      - category
+      - description
+      - imageUrl
+      - name
+      type: object
+    CustomerDTO:
+      properties:
+        cpf:
+          type: string
+        email:
+          type: string
+        id:
+          format: uuid
+          type: string
+        name:
+          type: string
+      type: object
+    OrderDTO:
+      properties:
+        amount:
+          type: number
+        createdAt:
+          format: date-time
+          type: string
+        customerId:
+          format: uuid
+          type: string
+        history:
+          items:
+            $ref: '#/components/schemas/OrderHistory'
+          type: array
+        id:
+          format: uuid
+          type: string
+        orderNumber:
+          format: int32
+          type: integer
+        paidAt:
+          format: date-time
+          type: string
+        products:
+          items:
+            $ref: '#/components/schemas/ProductAndQuantity'
+          type: array
+        status:
+          enum:
+          - CREATED
+          - RECEIVED
+          - IN_PREPARATION
+          - READY_TO_DELIVERY
+          - CANCELED
+          - FINISHED
+          type: string
+        waitingTimeInSeconds:
+          format: int64
+          type: integer
+      type: object
+    OrderHistory:
+      properties:
+        lastStatus:
+          enum:
+          - CREATED
+          - RECEIVED
+          - IN_PREPARATION
+          - READY_TO_DELIVERY
+          - CANCELED
+          - FINISHED
+          type: string
+        moment:
+          format: date-time
+          type: string
+        previousStatus:
+          enum:
+          - CREATED
+          - RECEIVED
+          - IN_PREPARATION
+          - READY_TO_DELIVERY
+          - CANCELED
+          - FINISHED
+          type: string
+      type: object
+    OrderHistoryDTO:
+      properties:
+        lastStatus:
+          enum:
+          - CREATED
+          - RECEIVED
+          - IN_PREPARATION
+          - READY_TO_DELIVERY
+          - CANCELED
+          - FINISHED
+          type: string
+        moment:
+          format: date-time
+          type: string
+        previousStatus:
+          enum:
+          - CREATED
+          - RECEIVED
+          - IN_PREPARATION
+          - READY_TO_DELIVERY
+          - CANCELED
+          - FINISHED
+          type: string
+      type: object
+    OrderProductDTO:
+      properties:
+        id:
+          maxLength: 36
+          minLength: 36
+          type: string
+        quantity:
+          format: int32
+          maximum: 2147483647
+          minimum: 1
+          type: integer
+      required:
+      - id
+      - quantity
+      type: object
+    Payment:
+      properties:
+        amount:
+          type: number
+        externalId:
+          type: string
+        gateway:
+          type: string
+        id:
+          format: uuid
+          type: string
+        orderId:
+          format: uuid
+          type: string
+        payedAt:
+          format: date-time
+          type: string
+        status:
+          type: string
+        transactionData:
+          type: object
+      type: object
+    PaymentDTO:
+      properties:
+        amount:
+          type: number
+        externalId:
+          type: string
+        gateway:
+          type: string
+        orderId:
+          format: uuid
+          type: string
+        payedAt:
+          format: date-time
+          type: string
+        paymentId:
+          format: uuid
+          type: string
+        status:
+          type: string
+        transactionData:
+          type: object
+      type: object
+    PaymentWebhookDTO:
+      properties:
+        amount:
+          type: number
+        externalId:
+          type: string
+        gateway:
+          type: string
+        orderId:
+          format: uuid
+          type: string
+        payedAt:
+          format: date-time
+          type: string
+        paymentId:
+          format: uuid
+          type: string
+        status:
+          type: string
+      type: object
+    Product:
+      properties:
+        category:
+          enum:
+          - SANDWICH
+          - SIDE_DISH
+          - DRINK
+          - DESSERT
+          type: string
+        description:
+          type: string
+        id:
+          format: uuid
+          type: string
+        imageUrl:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+      type: object
+    ProductAndQuantity:
+      properties:
+        product:
+          $ref: '#/schemas/Product'
+        quantity:
+          format: int32
+          type: integer
+      type: object
+    ProductDTO:
+      properties:
+        category:
+          enum:
+          - SANDWICH
+          - SIDE_DISH
+          - DRINK
+          - DESSERT
+          type: string
+        description:
+          type: string
+        id:
+          format: uuid
+          type: string
+        imageUrl:
+          type: string
+        name:
+          type: string
+        price:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+      required:
+      - category
+      - description
+      - imageUrl
+      - name
+      type: object
+    PutCustomerDTO:
+      properties:
+        email:
+          type: string
+        name:
+          type: string
+      required:
+      - email
+      - name
+      type: object
+    UpdateOrderStatusDTO:
+      properties:
+        status:
+          type: string
+      required:
+      - status
+      type: object
 
 
