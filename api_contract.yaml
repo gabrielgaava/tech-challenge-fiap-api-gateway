@@ -21,7 +21,7 @@ paths:
       x-amazon-apigateway-integration:
         type: http_proxy
         httpMethod: POST
-        uri: arn:aws:elasticloadbalancing:us-east-1:793862496606:listener/net/a4c00e69828834c8ba47303e3d01c1d0/9dbaf1f6187cf951/55924aac5f7ed4fd
+        uri: http://a4c00e69828834c8ba47303e3d01c1d0-9dbaf1f6187cf951.elb.us-east-1.amazonaws.com:8080
         connectionType: VPC_LINK
         connectionId: jv5g60
         passthroughBehavior: when_no_match
@@ -46,7 +46,7 @@ paths:
       x-amazon-apigateway-integration:
         type: http_proxy
         httpMethod: POST
-        uri: arn:aws:elasticloadbalancing:us-east-1:793862496606:listener/net/a4c00e69828834c8ba47303e3d01c1d0/9dbaf1f6187cf951/55924aac5f7ed4fd
+        uri: http://a4c00e69828834c8ba47303e3d01c1d0-9dbaf1f6187cf951.elb.us-east-1.amazonaws.com:8080
         connectionType: VPC_LINK
         connectionId: jv5g60
         requestParameters:
@@ -79,7 +79,7 @@ paths:
       x-amazon-apigateway-integration:
         type: http_proxy
         httpMethod: POST
-        uri: arn:aws:elasticloadbalancing:us-east-1:793862496606:listener/net/a4c00e69828834c8ba47303e3d01c1d0/9dbaf1f6187cf951/55924aac5f7ed4fd
+        uri: http://a4c00e69828834c8ba47303e3d01c1d0-9dbaf1f6187cf951.elb.us-east-1.amazonaws.com:8080
         connectionType: VPC_LINK
         connectionId: jv5g60
         requestParameters:
@@ -112,7 +112,7 @@ paths:
       x-amazon-apigateway-integration:
         type: http_proxy
         httpMethod: POST
-        uri: arn:aws:elasticloadbalancing:us-east-1:793862496606:listener/net/a4c00e69828834c8ba47303e3d01c1d0/9dbaf1f6187cf951/55924aac5f7ed4fd
+        uri: http://a4c00e69828834c8ba47303e3d01c1d0-9dbaf1f6187cf951.elb.us-east-1.amazonaws.com:8080
         connectionType: VPC_LINK
         connectionId: jv5g60
         requestParameters:
@@ -139,7 +139,7 @@ paths:
       x-amazon-apigateway-integration:
         type: http_proxy
         httpMethod: GET
-        uri: arn:aws:elasticloadbalancing:us-east-1:793862496606:listener/net/a4c00e69828834c8ba47303e3d01c1d0/9dbaf1f6187cf951/55924aac5f7ed4fd
+        uri: http://a4c00e69828834c8ba47303e3d01c1d0-9dbaf1f6187cf951.elb.us-east-1.amazonaws.com:8080
         connectionType: VPC_LINK
         connectionId: jv5g60
         passthroughBehavior: when_no_match
@@ -734,7 +734,7 @@ components:
     ProductAndQuantity:
       properties:
         product:
-          $ref: '#/schemas/Product'
+          $ref: '#/components/schemas/Product'
         quantity:
           format: int32
           type: integer
