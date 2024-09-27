@@ -21,7 +21,7 @@ jobs:
         run: |
           ls
           sed -i 's|<LOAD_BALANCER_URI>|${{ secrets.LOAD_BALANCER_URI }}|g' ./api_contract.yaml
-          sed -i 's|<VPC_LINK_ID>|${{ secrets.LOAD_BALANCER_URI }}|g' ./api_contract.yaml
+          sed -i 's|<VPC_LINK_ID>|${{ secrets.VPC_LINK_ID }}|g' ./api_contract.yaml
           cat ./api_contract.yaml
 
       - name: Configure AWS Credentials
