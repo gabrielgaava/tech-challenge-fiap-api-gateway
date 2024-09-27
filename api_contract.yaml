@@ -20,8 +20,8 @@ paths:
       - Customer API
       x-amazon-apigateway-integration:
         type: http_proxy
-        httpMethod: POST
-        uri: http://a4c00e69828834c8ba47303e3d01c1d0-9dbaf1f6187cf951.elb.us-east-1.amazonaws.com:8080
+        httpMethod: GET
+        uri: http://a4c00e69828834c8ba47303e3d01c1d0-9dbaf1f6187cf951.elb.us-east-1.amazonaws.com:8080/customers
         connectionType: VPC_LINK
         connectionId: jv5g60
         passthroughBehavior: when_no_match
@@ -46,18 +46,16 @@ paths:
       x-amazon-apigateway-integration:
         type: http_proxy
         httpMethod: POST
-        uri: http://a4c00e69828834c8ba47303e3d01c1d0-9dbaf1f6187cf951.elb.us-east-1.amazonaws.com:8080
+        uri: http://a4c00e69828834c8ba47303e3d01c1d0-9dbaf1f6187cf951.elb.us-east-1.amazonaws.com:8080/customers
         connectionType: VPC_LINK
         connectionId: jv5g60
-        requestParameters:
-          integration.request.path.id: method.request.path.id
         passthroughBehavior: when_no_match
         requestTemplates:
           application/json: |
             {
               "body": $input.json('$')
             }
-  /api/customers/{id}:
+  /api/customers/{cpf}:
     get:
       operationId: getCustomerByCpf
       parameters:
@@ -78,12 +76,12 @@ paths:
       - Customer API
       x-amazon-apigateway-integration:
         type: http_proxy
-        httpMethod: POST
-        uri: http://a4c00e69828834c8ba47303e3d01c1d0-9dbaf1f6187cf951.elb.us-east-1.amazonaws.com:8080
+        httpMethod: GET
+        uri: http://a4c00e69828834c8ba47303e3d01c1d0-9dbaf1f6187cf951.elb.us-east-1.amazonaws.com:8080/customers/{cpf}
         connectionType: VPC_LINK
         connectionId: jv5g60
         requestParameters:
-          integration.request.path.id: method.request.path.id
+          integration.request.path.cpf: method.request.path.cpf
         passthroughBehavior: when_no_match
     put:
       operationId: updateCustomerByCpf
@@ -111,12 +109,12 @@ paths:
       - Customer API
       x-amazon-apigateway-integration:
         type: http_proxy
-        httpMethod: POST
-        uri: http://a4c00e69828834c8ba47303e3d01c1d0-9dbaf1f6187cf951.elb.us-east-1.amazonaws.com:8080
+        httpMethod: PUT
+        uri: http://a4c00e69828834c8ba47303e3d01c1d0-9dbaf1f6187cf951.elb.us-east-1.amazonaws.com:8080/customers/{cpf}
         connectionType: VPC_LINK
         connectionId: jv5g60
         requestParameters:
-          integration.request.path.id: method.request.path.id
+          integration.request.path.cpf: method.request.path.cpf
         passthroughBehavior: when_no_match
         requestTemplates:
           application/json: |
@@ -131,7 +129,7 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/HealthCheckDTO"
           description: OK
       summary: Returns current API status
       tags:
@@ -139,7 +137,7 @@ paths:
       x-amazon-apigateway-integration:
         type: http_proxy
         httpMethod: GET
-        uri: http://a4c00e69828834c8ba47303e3d01c1d0-9dbaf1f6187cf951.elb.us-east-1.amazonaws.com:8080
+        uri: http://a4c00e69828834c8ba47303e3d01c1d0-9dbaf1f6187cf951.elb.us-east-1.amazonaws.com:8080/healthcheck
         connectionType: VPC_LINK
         connectionId: jv5g60
         passthroughBehavior: when_no_match
@@ -168,9 +166,15 @@ paths:
       tags:
       - Webhook Mercado Pago Controller
       x-amazon-apigateway-integration:
-        httpMethod: POST
         type: http_proxy
-        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+        httpMethod: POST
+        uri: http://a4c00e69828834c8ba47303e3d01c1d0-9dbaf1f6187cf951.elb.us-east-1.amazonaws.com:8080/notifications/mercadopago
+        connectionType: VPC_LINK
+        connectionId: jv5g60
+        passthroughBehavior: when_no_match
+        requestParameters:
+          integration.request.querystring.topic: method.request.querystring.topic
+          integration.request.querystring.id: method.request.querystring.id
   /api/notifications/mercadopago/fake:
     post:
       operationId: fakePaymentNotification
@@ -196,9 +200,15 @@ paths:
       tags:
       - Webhook Mercado Pago Controller
       x-amazon-apigateway-integration:
-        httpMethod: POST
         type: http_proxy
-        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+        httpMethod: POST
+        uri: http://a4c00e69828834c8ba47303e3d01c1d0-9dbaf1f6187cf951.elb.us-east-1.amazonaws.com:8080/notifications/mercadopago/fake
+        connectionType: VPC_LINK
+        connectionId: jv5g60
+        passthroughBehavior: when_no_match
+        requestParameters:
+          integration.request.querystring.approve: method.request.querystring.approve
+          integration.request.querystring.id: method.request.querystring.id
   /api/orders:
     get:
       operationId: getOrders
@@ -245,9 +255,16 @@ paths:
       tags:
       - Order API
       x-amazon-apigateway-integration:
-        httpMethod: GET
         type: http_proxy
-        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+        httpMethod: GET
+        uri: http://a4c00e69828834c8ba47303e3d01c1d0-9dbaf1f6187cf951.elb.us-east-1.amazonaws.com:8080/orders
+        connectionType: VPC_LINK
+        connectionId: jv5g60
+        passthroughBehavior: when_no_match
+        requestParameters:
+          integration.request.querystring.status: method.request.querystring.status
+          integration.request.querystring.orderBy: method.request.querystring.orderBy
+          integration.request.querystring.orderDirection: method.request.querystring.orderDirection
     post:
       operationId: createOrder
       requestBody:
@@ -267,9 +284,17 @@ paths:
       tags:
       - Order API
       x-amazon-apigateway-integration:
-        httpMethod: POST
         type: http_proxy
-        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+        httpMethod: POST
+        uri: http://a4c00e69828834c8ba47303e3d01c1d0-9dbaf1f6187cf951.elb.us-east-1.amazonaws.com:8080/orders
+        connectionType: VPC_LINK
+        connectionId: jv5g60
+        passthroughBehavior: when_no_match
+        requestTemplates:
+          application/json: |
+            {
+              "body": $input.json('$')
+            }
   /api/orders/{id}:
     get:
       operationId: getOrder
@@ -290,9 +315,14 @@ paths:
       tags:
       - Order API
       x-amazon-apigateway-integration:
-        httpMethod: GET
         type: http_proxy
-        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+        httpMethod: GET
+        uri: http://a4c00e69828834c8ba47303e3d01c1d0-9dbaf1f6187cf951.elb.us-east-1.amazonaws.com:8080/orders/{id}
+        connectionType: VPC_LINK
+        connectionId: jv5g60
+        requestParameters:
+          integration.request.path.id: method.request.path.id
+        passthroughBehavior: when_no_match
     patch:
       operationId: updateStatus
       parameters:
@@ -320,7 +350,17 @@ paths:
       x-amazon-apigateway-integration:
         httpMethod: PATCH
         type: http_proxy
-        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080/orders/{id}
+        connectionType: VPC_LINK
+        connectionId: jv5g60
+        passthroughBehavior: when_no_match
+        requestParameters:
+          integration.request.path.id: method.request.path.id
+        requestTemplates:
+          application/json: |
+            {
+              "body": $input.json('$')
+            }
   /api/orders/{id}/checkout:
     post:
       operationId: payOrder
@@ -344,7 +384,17 @@ paths:
       x-amazon-apigateway-integration:
         httpMethod: POST
         type: http_proxy
-        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080/orders/{id}/checkout
+        connectionType: VPC_LINK
+        connectionId: jv5g60
+        passthroughBehavior: when_no_match
+        requestParameters:
+          integration.request.path.id: method.request.path.id
+        requestTemplates:
+          application/json: |
+            {
+              "body": $input.json('$')
+            }
   /api/orders/{id}/history:
     get:
       operationId: getOrderHistory
@@ -370,7 +420,12 @@ paths:
       x-amazon-apigateway-integration:
         httpMethod: GET
         type: http_proxy
-        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080/orders/{id}/history
+        connectionType: VPC_LINK
+        connectionId: jv5g60
+        passthroughBehavior: when_no_match
+        requestParameters:
+          integration.request.path.id: method.request.path.id
   /api/payments/{payment_id}:
     get:
       operationId: getPayment
@@ -399,7 +454,12 @@ paths:
       x-amazon-apigateway-integration:
         httpMethod: GET
         type: http_proxy
-        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080/payments/{payment_id}
+        connectionType: VPC_LINK
+        connectionId: jv5g60
+        passthroughBehavior: when_no_match
+        requestParameters:
+          integration.request.path.payment_id: method.request.path.payment_id
   /api/products:
     get:
       operationId: getProducts
@@ -427,9 +487,12 @@ paths:
       tags:
       - Product API
       x-amazon-apigateway-integration:
-        httpMethod: GET
         type: http_proxy
-        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+        httpMethod: GET
+        uri: http://a4c00e69828834c8ba47303e3d01c1d0-9dbaf1f6187cf951.elb.us-east-1.amazonaws.com:8080/products
+        connectionType: VPC_LINK
+        connectionId: jv5g60
+        passthroughBehavior: when_no_match
     post:
       operationId: createProduct
       requestBody:
@@ -449,9 +512,17 @@ paths:
       tags:
       - Product API
       x-amazon-apigateway-integration:
-        httpMethod: POST
         type: http_proxy
-        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+        httpMethod: POST
+        uri: http://a4c00e69828834c8ba47303e3d01c1d0-9dbaf1f6187cf951.elb.us-east-1.amazonaws.com:8080/products
+        connectionType: VPC_LINK
+        connectionId: jv5g60
+        passthroughBehavior: when_no_match
+        requestTemplates:
+          application/json: |
+            {
+              "body": $input.json('$')
+            }
   /api/products/{id}:
     delete:
       operationId: deleteProduct
@@ -474,7 +545,12 @@ paths:
       x-amazon-apigateway-integration:
         httpMethod: DELETE
         type: http_proxy
-        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080/products/{id}
+        connectionType: VPC_LINK
+        connectionId: jv5g60
+        passthroughBehavior: when_no_match
+        requestParameters:
+          integration.request.path.id: method.request.path.id
 
 servers:
 - description: Generated server url
@@ -482,6 +558,12 @@ servers:
 
 components:
   schemas:
+    HealthCheckDTO:
+      properties:
+        status:
+          type: string
+        message:
+          type: string
     CreateCustomerDTO:
       properties:
         cpf:
