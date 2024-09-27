@@ -25,8 +25,12 @@ jobs:
 
       - name: Update API Contract with dynamic values
         run: |
+          ls
+          echo ${{ secrets.LOAD_BALANCER_URI }}
+          echo ${{ secrets.VPC_LINK_ID }}
           sed -i 's|<LOAD_BALANCER_URI>|${{ env.LOAD_BALANCER_URI }}|g' ./api_contract.yaml
           sed -i 's|<VPC_LINK_ID>|${{ env.VPC_LINK_ID }}|g' ./api_contract.yaml
+          cat ./api_contract.yaml
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
