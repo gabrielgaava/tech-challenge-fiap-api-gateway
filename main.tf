@@ -11,14 +11,23 @@ resource "aws_api_gateway_rest_api" "tech_challenge_api" {
     body        =   file("api_contract.yaml")
 }
 
+resource "aws_api_gateway_stage" "deploy_stage" {
+    deployment_id = aws_api_gateway_deployment.tech_challenge_api_deployment.id
+    rest_api_id = aws_api_gateway_rest_api.tech_challenge_api.id
+    stage_name = var.stage
+    description = "Production Enviroment"
+    variables = {
+        "lambdaAlias" = var.stage
+    }
+}
+
 resource "aws_api_gateway_deployment" "tech_challenge_api_deployment" {
+    rest_api_id = aws_api_gateway_rest_api.tech_challenge_api.id
+    stage_name  = var.stage
 
     depends_on = [
       aws_api_gateway_rest_api.tech_challenge_api
     ]
-    
-    rest_api_id = aws_api_gateway_rest_api.tech_challenge_api.id
-    stage_name  = var.stage
 }
   
   
@@ -26,4 +35,4 @@ resource "aws_api_gateway_deployment" "tech_challenge_api_deployment" {
   variable "aws_secret_key" {}
   variable "aws_session_token" {}
   variable "aws_region" {}
-  variable "stage" {}
+  variable "stage" { default = "prod" }
