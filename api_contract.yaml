@@ -16,6 +16,8 @@ paths:
                 type: array
           description: OK
       summary: List all customers
+      security:
+        - LambdaAuthorizer: []
       tags:
       - Customer API
       x-amazon-apigateway-integration:
@@ -72,6 +74,8 @@ paths:
                 $ref: '#/components/schemas/CustomerDTO'
           description: OK
       summary: Search for a customer by CPF
+      security:
+        - LambdaAuthorizer: []
       tags:
       - Customer API
       x-amazon-apigateway-integration:
@@ -105,6 +109,8 @@ paths:
                 $ref: '#/components/schemas/CustomerDTO'
           description: OK
       summary: Update customers data
+      security:
+        - LambdaAuthorizer: []
       tags:
       - Customer API
       x-amazon-apigateway-integration:
@@ -165,6 +171,8 @@ paths:
           description: OK
       tags:
       - Webhook Mercado Pago Controller
+      security:
+        - LambdaAuthorizer: []
       x-amazon-apigateway-integration:
         type: http_proxy
         httpMethod: POST
@@ -197,6 +205,8 @@ paths:
           description: OK
       summary: Simulate the webhook integration, when 'approve' is true, simulates
         the success of the payment
+      security:
+        - LambdaAuthorizer: []
       tags:
       - Webhook Mercado Pago Controller
       x-amazon-apigateway-integration:
@@ -252,6 +262,8 @@ paths:
                 type: array
           description: OK
       summary: List all orders based on query filters
+      security:
+        - LambdaAuthorizer: []
       tags:
       - Order API
       x-amazon-apigateway-integration:
@@ -312,6 +324,8 @@ paths:
                 $ref: '#/components/schemas/OrderDTO'
           description: OK
       summary: Get all details of an order
+      security:
+        - LambdaAuthorizer: []
       tags:
       - Order API
       x-amazon-apigateway-integration:
@@ -345,12 +359,14 @@ paths:
                 type: object
           description: OK
       summary: Update the oder's status
+      security:
+        - LambdaAuthorizer: []
       tags:
       - Order API
       x-amazon-apigateway-integration:
         httpMethod: PATCH
         type: http_proxy
-        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080/orders/{id}
+        uri: <LOAD_BALANCER_URI>/orders/{id}
         connectionType: VPC_LINK
         connectionId: <VPC_LINK_ID>
         passthroughBehavior: when_no_match
@@ -379,12 +395,14 @@ paths:
                 $ref: '#/components/schemas/PaymentDTO'
           description: OK
       summary: Pay the order with mercado pago
+      security:
+        - LambdaAuthorizer: []
       tags:
       - Order API
       x-amazon-apigateway-integration:
         httpMethod: POST
         type: http_proxy
-        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080/orders/{id}/checkout
+        uri: <LOAD_BALANCER_URI>/orders/{id}/checkout
         connectionType: VPC_LINK
         connectionId: <VPC_LINK_ID>
         passthroughBehavior: when_no_match
@@ -415,12 +433,14 @@ paths:
                 type: array
           description: OK
       summary: Get the order's history with all status changes
+      security:
+        - LambdaAuthorizer: []
       tags:
       - Order API
       x-amazon-apigateway-integration:
         httpMethod: GET
         type: http_proxy
-        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080/orders/{id}/history
+        uri: <LOAD_BALANCER_URI>/orders/{id}/history
         connectionType: VPC_LINK
         connectionId: <VPC_LINK_ID>
         passthroughBehavior: when_no_match
@@ -449,12 +469,14 @@ paths:
           description: OK
       summary: Get a payment details by its ID. When 'isExternal' is true, search
         by the external gateway ID
+      security:
+        - LambdaAuthorizer: []
       tags:
       - Payment Controller
       x-amazon-apigateway-integration:
         httpMethod: GET
         type: http_proxy
-        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080/payments/{payment_id}
+        uri: <LOAD_BALANCER_URI>/payments/{payment_id}
         connectionType: VPC_LINK
         connectionId: <VPC_LINK_ID>
         passthroughBehavior: when_no_match
@@ -509,6 +531,8 @@ paths:
                 $ref: '#/components/schemas/ProductDTO'
           description: OK
       summary: Creates a new product
+      security:
+        - LambdaAuthorizer: []
       tags:
       - Product API
       x-amazon-apigateway-integration:
@@ -540,12 +564,14 @@ paths:
                 type: object
           description: OK
       summary: Delete a product from database
+      security:
+        - LambdaAuthorizer: []
       tags:
       - Product API
       x-amazon-apigateway-integration:
         httpMethod: DELETE
         type: http_proxy
-        uri: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080/products/{id}
+        uri: <LOAD_BALANCER_URI>/products/{id}
         connectionType: VPC_LINK
         connectionId: <VPC_LINK_ID>
         passthroughBehavior: when_no_match
@@ -554,9 +580,22 @@ paths:
 
 servers:
 - description: Generated server url
-  url: http://a0d25d889f11d460e8f2ab0127efe38f-968cf5a0599ab794.elb.us-east-1.amazonaws.com:8080
+  url: <LOAD_BALANCER_URI>
 
 components:
+
+  securitySchemes:
+    LambdaAuthorizer:
+      type: "apiKey"
+      name: "Authorization"
+      in: "header"
+      x-amazon-apigateway-authtype: "custom"
+      x-amazon-apigateway-authorizer:
+        type: "REQUEST"
+        authorizerUri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/<LAMBDA_AUTH_ARN>/invocations"
+        identitySource: "method.request.header.Authorization"
+        authorizerResultTtlInSeconds: 300
+
   schemas:
     HealthCheckDTO:
       properties:
