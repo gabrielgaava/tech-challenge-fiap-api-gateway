@@ -22,7 +22,7 @@ paths:
         httpMethod: POST
         uri: arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/<TOKEN_LAMBDA_ARN>/invocations
         passthroughBehavior: when_no_match
-        credentials: arn:aws:iam::793862496606:role/LambdaExecutionRole
+        credentials: arn:aws:iam::793862496606:role/LabRole
         responses:
           default:
             statusCode: "200"
