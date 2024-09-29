@@ -594,7 +594,7 @@ components:
         type: "REQUEST"
         identitySource: "method.request.header.Authorization"
         authorizerUri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/<LAMBDA_AUTH_ARN>/invocations"
-        authorizerCredentialsArn: "arn:aws:iam::793862496606:role/LabRole"
+        authorizerCredentials: "arn:aws:iam::793862496606:role/LabRole"
         authorizerResultTtlInSeconds: 300
 
   schemas:
