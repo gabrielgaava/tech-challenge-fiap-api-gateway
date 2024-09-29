@@ -3,6 +3,29 @@ info:
   version: v1
 openapi: 3.0.1
 paths:
+  /auth:
+    post:
+      operationId: createAuthToken
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                  token:
+                    type: string
+      x-amazon-apigateway-integration:
+        type: aws_proxy
+        httpMethod: POST
+        uri: arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/<TOKEN_LAMBDA_ARN>/invocations
+        passthroughBehavior: when_no_match
+        credentials: arn:aws:iam::793862496606:role/LabRole
+        responses:
+          default:
+            statusCode: "200"
   /api/customers:
     get:
       operationId: getAllCustomers
