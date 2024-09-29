@@ -592,6 +592,7 @@ components:
       x-amazon-apigateway-authtype: "custom"
       x-amazon-apigateway-authorizer:
         type: "REQUEST"
+        authorizerCredentialsArn: "arn:aws:iam::793862496606:role/LabRole"
         authorizerUri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/<LAMBDA_AUTH_ARN>/invocations"
         identitySource: "method.request.header.Authorization"
         authorizerResultTtlInSeconds: 300
