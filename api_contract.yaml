@@ -503,7 +503,7 @@ paths:
         httpMethod: POST
         uri: <LBL_PAYMENT_URI>/notifications/mercadopago
         connectionType: VPC_LINK
-        connectionId: <VPC_LINK_ID>
+        connectionId: <LBL_PAYMENT_VPC_ID>
         passthroughBehavior: when_no_match
         requestParameters:
           integration.request.querystring.topic: method.request.querystring.topic
