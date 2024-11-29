@@ -8,6 +8,7 @@ paths:
       operationId: createAuthToken
       responses:
         '200':
+          description: Create a auth token for de user session
           content:
             application/json:
               schema:
@@ -22,10 +23,11 @@ paths:
         httpMethod: POST
         uri: arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/<TOKEN_LAMBDA_ARN>/invocations
         passthroughBehavior: when_no_match
-        credentials: arn:aws:iam::793862496606:role/LabRole
+        credentials: <LAMBDA_ROLE>
         responses:
           default:
             statusCode: "200"
+
   /api/customers:
     get:
       operationId: getAllCustomers
@@ -46,9 +48,9 @@ paths:
       x-amazon-apigateway-integration:
         type: http_proxy
         httpMethod: GET
-        uri: <LOAD_BALANCER_URI>/customers
+        uri: <LBL_CUSTOMER_URI>/customers
         connectionType: VPC_LINK
-        connectionId: <VPC_LINK_ID>
+        connectionId: <LBL_CUSTOMER_VPC_ID>
         passthroughBehavior: when_no_match
     post:
       operationId: createCustomer
@@ -71,9 +73,9 @@ paths:
       x-amazon-apigateway-integration:
         type: http_proxy
         httpMethod: POST
-        uri: <LOAD_BALANCER_URI>/customers
+        uri: <LBL_CUSTOMER_URI>/customers
         connectionType: VPC_LINK
-        connectionId: <VPC_LINK_ID>
+        connectionId: <LBL_CUSTOMER_VPC_ID>
         passthroughBehavior: when_no_match
         requestTemplates:
           application/json: |
@@ -104,9 +106,9 @@ paths:
       x-amazon-apigateway-integration:
         type: http_proxy
         httpMethod: GET
-        uri: <LOAD_BALANCER_URI>/customers/{cpf}
+        uri: <LBL_CUSTOMER_URI>/customers/{cpf}
         connectionType: VPC_LINK
-        connectionId: <VPC_LINK_ID>
+        connectionId: <LBL_CUSTOMER_VPC_ID>
         requestParameters:
           integration.request.path.cpf: method.request.path.cpf
         passthroughBehavior: when_no_match
@@ -139,9 +141,9 @@ paths:
       x-amazon-apigateway-integration:
         type: http_proxy
         httpMethod: PUT
-        uri: <LOAD_BALANCER_URI>/customers/{cpf}
+        uri: <LBL_CUSTOMER_URI>/customers/{cpf}
         connectionType: VPC_LINK
-        connectionId: <VPC_LINK_ID>
+        connectionId: <LBL_CUSTOMER_VPC_ID>
         requestParameters:
           integration.request.path.cpf: method.request.path.cpf
         passthroughBehavior: when_no_match
@@ -166,82 +168,11 @@ paths:
       x-amazon-apigateway-integration:
         type: http_proxy
         httpMethod: GET
-        uri: <LOAD_BALANCER_URI>/healthcheck
+        uri: <LBL_CUSTOMER_URI>/healthcheck
         connectionType: VPC_LINK
-        connectionId: <VPC_LINK_ID>
+        connectionId: <LBL_CUSTOMER_VPC_ID>
         passthroughBehavior: when_no_match
 
-  /api/notifications/mercadopago:
-    post:
-      operationId: instantPaymentNotification
-      parameters:
-      - in: query
-        name: topic
-        required: true
-        schema:
-          type: string
-      - in: query
-        name: id
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: object
-          description: OK
-      tags:
-      - Webhook Mercado Pago Controller
-      security:
-        - LambdaAuthorizer: []
-      x-amazon-apigateway-integration:
-        type: http_proxy
-        httpMethod: POST
-        uri: <LOAD_BALANCER_URI>/notifications/mercadopago
-        connectionType: VPC_LINK
-        connectionId: <VPC_LINK_ID>
-        passthroughBehavior: when_no_match
-        requestParameters:
-          integration.request.querystring.topic: method.request.querystring.topic
-          integration.request.querystring.id: method.request.querystring.id
-  /api/notifications/mercadopago/fake:
-    post:
-      operationId: fakePaymentNotification
-      parameters:
-      - in: query
-        name: approve
-        schema:
-          type: boolean
-      - in: query
-        name: id
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PaymentWebhookDTO'
-          description: OK
-      summary: Simulate the webhook integration, when 'approve' is true, simulates
-        the success of the payment
-      security:
-        - LambdaAuthorizer: []
-      tags:
-      - Webhook Mercado Pago Controller
-      x-amazon-apigateway-integration:
-        type: http_proxy
-        httpMethod: POST
-        uri: <LOAD_BALANCER_URI>/notifications/mercadopago/fake
-        connectionType: VPC_LINK
-        connectionId: <VPC_LINK_ID>
-        passthroughBehavior: when_no_match
-        requestParameters:
-          integration.request.querystring.approve: method.request.querystring.approve
-          integration.request.querystring.id: method.request.querystring.id
   /api/orders:
     get:
       operationId: getOrders
@@ -292,9 +223,9 @@ paths:
       x-amazon-apigateway-integration:
         type: http_proxy
         httpMethod: GET
-        uri: <LOAD_BALANCER_URI>/orders
+        uri: <LBL_ORDER_URI>/orders
         connectionType: VPC_LINK
-        connectionId: <VPC_LINK_ID>
+        connectionId: <LBL_ORDER_VPC_ID>
         passthroughBehavior: when_no_match
         requestParameters:
           integration.request.querystring.status: method.request.querystring.status
@@ -321,9 +252,9 @@ paths:
       x-amazon-apigateway-integration:
         type: http_proxy
         httpMethod: POST
-        uri: <LOAD_BALANCER_URI>/orders
+        uri: <LBL_ORDER_URI>/orders
         connectionType: VPC_LINK
-        connectionId: <VPC_LINK_ID>
+        connectionId: <LBL_ORDER_VPC_ID>
         passthroughBehavior: when_no_match
         requestTemplates:
           application/json: |
@@ -354,9 +285,9 @@ paths:
       x-amazon-apigateway-integration:
         type: http_proxy
         httpMethod: GET
-        uri: <LOAD_BALANCER_URI>/orders/{id}
+        uri: <LBL_ORDER_URI>/orders/{id}
         connectionType: VPC_LINK
-        connectionId: <VPC_LINK_ID>
+        connectionId: <LBL_ORDER_VPC_ID>
         requestParameters:
           integration.request.path.id: method.request.path.id
         passthroughBehavior: when_no_match
@@ -389,9 +320,9 @@ paths:
       x-amazon-apigateway-integration:
         httpMethod: PATCH
         type: http_proxy
-        uri: <LOAD_BALANCER_URI>/orders/{id}
+        uri: <LBL_ORDER_URI>/orders/{id}
         connectionType: VPC_LINK
-        connectionId: <VPC_LINK_ID>
+        connectionId: <LBL_ORDER_VPC_ID>
         passthroughBehavior: when_no_match
         requestParameters:
           integration.request.path.id: method.request.path.id
@@ -425,9 +356,9 @@ paths:
       x-amazon-apigateway-integration:
         httpMethod: POST
         type: http_proxy
-        uri: <LOAD_BALANCER_URI>/orders/{id}/checkout
+        uri: <LBL_ORDER_URI>/orders/{id}/checkout
         connectionType: VPC_LINK
-        connectionId: <VPC_LINK_ID>
+        connectionId: <LBL_ORDER_VPC_ID>
         passthroughBehavior: when_no_match
         requestParameters:
           integration.request.path.id: method.request.path.id
@@ -463,12 +394,49 @@ paths:
       x-amazon-apigateway-integration:
         httpMethod: GET
         type: http_proxy
-        uri: <LOAD_BALANCER_URI>/orders/{id}/history
+        uri: <LBL_ORDER_URI>/orders/{id}/history
         connectionType: VPC_LINK
-        connectionId: <VPC_LINK_ID>
+        connectionId: <LBL_ORDER_VPC_ID>
         passthroughBehavior: when_no_match
         requestParameters:
           integration.request.path.id: method.request.path.id
+
+  /api/payments:
+    get:
+      operationId: listPayments
+      parameters:
+        - in: query
+          name: filterBy
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: filterValue
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Payment'
+          description: OK
+      summary: List all payment. Filters can by applied to refine the results
+      security:
+        - LambdaAuthorizer: []
+      tags:
+        - Payment Controller
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        type: http_proxy
+        uri: <LBL_PAYMENT_URI>/payments
+        connectionType: VPC_LINK
+        connectionId: <LBL_PAYMENT_VPC_ID>
+        passthroughBehavior: when_no_match
+
   /api/payments/{payment_id}:
     get:
       operationId: getPayment
@@ -499,12 +467,84 @@ paths:
       x-amazon-apigateway-integration:
         httpMethod: GET
         type: http_proxy
-        uri: <LOAD_BALANCER_URI>/payments/{payment_id}
+        uri: <LBL_PAYMENT_URI>/payments/{payment_id}
+        connectionType: VPC_LINK
+        connectionId: <LBL_PAYMENT_VPC_ID>
+        passthroughBehavior: when_no_match
+        requestParameters:
+          integration.request.path.payment_id: method.request.path.payment_id
+  /api/notifications/mercadopago:
+    post:
+      operationId: instantPaymentNotification
+      parameters:
+        - in: query
+          name: topic
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: OK
+      tags:
+        - Webhook Mercado Pago Controller
+      security:
+        - LambdaAuthorizer: [ ]
+      x-amazon-apigateway-integration:
+        type: http_proxy
+        httpMethod: POST
+        uri: <LBL_PAYMENT_URI>/notifications/mercadopago
         connectionType: VPC_LINK
         connectionId: <VPC_LINK_ID>
         passthroughBehavior: when_no_match
         requestParameters:
-          integration.request.path.payment_id: method.request.path.payment_id
+          integration.request.querystring.topic: method.request.querystring.topic
+          integration.request.querystring.id: method.request.querystring.id
+  /api/notifications/mercadopago/fake:
+    post:
+      operationId: fakePaymentNotification
+      parameters:
+        - in: query
+          name: approve
+          schema:
+            type: boolean
+        - in: query
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentWebhookDTO'
+          description: OK
+      summary: Simulate the webhook integration, when 'approve' is true, simulates
+        the success of the payment
+      security:
+        - LambdaAuthorizer: [ ]
+      tags:
+        - Webhook Mercado Pago Controller
+      x-amazon-apigateway-integration:
+        type: http_proxy
+        httpMethod: POST
+        uri: <LBL_PAYMENT_URI>/notifications/mercadopago/fake
+        connectionType: VPC_LINK
+        connectionId: <LBL_PAYMENT_VPC_ID>
+        passthroughBehavior: when_no_match
+        requestParameters:
+          integration.request.querystring.approve: method.request.querystring.approve
+          integration.request.querystring.id: method.request.querystring.id
+
   /api/products:
     get:
       operationId: getProducts
@@ -534,9 +574,9 @@ paths:
       x-amazon-apigateway-integration:
         type: http_proxy
         httpMethod: GET
-        uri: <LOAD_BALANCER_URI>/products
+        uri: <LBL_ORDER_URI>/products
         connectionType: VPC_LINK
-        connectionId: <VPC_LINK_ID>
+        connectionId: <LBL_ORDER_VPC_ID>
         passthroughBehavior: when_no_match
     post:
       operationId: createProduct
@@ -561,9 +601,9 @@ paths:
       x-amazon-apigateway-integration:
         type: http_proxy
         httpMethod: POST
-        uri: <LOAD_BALANCER_URI>/products
+        uri: <LBL_ORDER_URI>/products
         connectionType: VPC_LINK
-        connectionId: <VPC_LINK_ID>
+        connectionId: <LBL_ORDER_VPC_ID>
         passthroughBehavior: when_no_match
         requestTemplates:
           application/json: |
@@ -594,9 +634,9 @@ paths:
       x-amazon-apigateway-integration:
         httpMethod: DELETE
         type: http_proxy
-        uri: <LOAD_BALANCER_URI>/products/{id}
+        uri: <LBL_ORDER_URI>/products/{id}
         connectionType: VPC_LINK
-        connectionId: <VPC_LINK_ID>
+        connectionId: <LBL_ORDER_VPC_ID>
         passthroughBehavior: when_no_match
         requestParameters:
           integration.request.path.id: method.request.path.id
@@ -617,7 +657,7 @@ components:
         type: "REQUEST"
         identitySource: "method.request.header.Authorization"
         authorizerUri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/<LAMBDA_AUTH_ARN>/invocations"
-        authorizerCredentials: "arn:aws:iam::793862496606:role/LabRole"
+        authorizerCredentials: "<LAMBDA_ROLE>"
         authorizerResultTtlInSeconds: 300
 
   schemas:
