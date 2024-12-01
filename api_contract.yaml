@@ -512,7 +512,6 @@ paths:
         passthroughBehavior: when_no_match
         requestParameters:
           integration.request.querystring.topic: method.request.querystring.topic
-          integration.request.querystring.id: method.request.querystring.id
   /api/notifications/mercadopago/fake:
     post:
       operationId: fakePaymentNotification
@@ -548,7 +547,6 @@ paths:
         passthroughBehavior: when_no_match
         requestParameters:
           integration.request.querystring.approve: method.request.querystring.approve
-          integration.request.querystring.id: method.request.querystring.id
 
   /api/products:
     get:
